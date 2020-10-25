@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.tabibyab.tabibyab.DoctorMapper">
+  
+	<select id="selectDoctors" resultType="com.tabibyab.tabibyab.Doctor">
+		select * from doctor
+	</select>
+  	
+  	<insert id="insertDoctor">
+  		insert into doctor (username, medical_council_code, first_name, last_name,password, visitprice, photo, sID) values ('dr.sadeghM','131213','Sadegh','Maghare','1234',50,'https://randomuser.me/api/portraits/men/97.jpg',1)
+  	</insert>
+  
+  	<select id="selectSpecialty" resultType="com.tabibyab.tabibyab.Specialty">
+		select * from specialty
+	</select>
+	
+	<select id="selectState" resultType="com.tabibyab.tabibyab.State">
+		select dID,work_hour.*,aphone_number,street,alley,plaque,doh.aID from doctor,doh,work_hour,doctor_office,address where doh.dID = doctor.username and doh.whID = work_hour.workhourID and doh.doID = doctor_office.doctorofficeID and doctor_office.aID = address.addressID order by year,month,day,start_hour desc
+	</select>
+	
+	<select id="selectHState" resultType="com.tabibyab.tabibyab.State">
+		select dID,work_hour.*,aphone_number,street,alley,plaque,dhh.aID from doctor,dhh,work_hour,health_care_center,address where dhh.dID = doctor.username and dhh.whID = work_hour.workhourID and dhh.hID = health_care_center.hccID and health_care_center.aID = address.addressID order by year,month,day,start_hour desc
+	</select>
+	
+	<insert id="insertPayment">
+		  insert into payment (code) values (#{code})
+	</insert>
+	
+	<insert id="insertAppointment">
+		insert into appointment (pID,useID,docID) values (#{payID},#{userID},#{doctorID})
+			<selectKey keyProperty="appointmentID" resultType="int"
+			order="AFTER">
+			select last_insert_id() as id
+		</selectKey>
+		
+	</insert>
+	
+	<update id="updateDOH">
+		update doh set doh.aID = #{appointmentID}
+	</update>
+	
+	
+	<update id="updateDHH">
+		update dhh set dhh.aID = #{appointmentID}
+	</update>
+	
+	<select id="selectHCC" resultType="com.tabibyab.tabibyab.HealthCareCenter">
+		select hccID,aphone_number,street,alley,plaque from health_care_center,address where health_care_Center.aID = address.addressID
+	</select>
+	
+	<select id="selectDoctorsHCC" resultType="com.tabibyab.tabibyab.HDoctor">
+		select doctor.*,hID from dhh,doctor where dhh.dID = doctor.username and dhh.hID = #{hccID}
+	</select>
+	
+	<select id="searchName" resultType="com.tabibyab.tabibyab.Doctor">
+		select doctor.*,concat_ws(' ',doctor.first_name ,doctor.last_name) as full_name from doctor where doctor.first_name like '%' || #{searched} || '%' or doctor.last_name like '%' || #{searched} || '%' 
+	</select>
+	
+	<select id="searchSpecialty" resultType="com.tabibyab.tabibyab.Doctor">
+		select doctor.* from doctor,specialty where doctor.sID = specialty.specialtyID and specialty.name like '%' || #{searched} || '%'
+	</select>
+	
+  </mapper>

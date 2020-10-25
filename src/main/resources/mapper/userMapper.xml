@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tabibyab.tabibyab.UserMapper">
+
+	<insert id="signup">
+		insert into user (phonenumber,password) values
+		(#{phonenumber},#{password})
+
+		<selectKey keyProperty="phonenumber" resultType="int"
+			order="AFTER">
+			select last_insert_id() as id
+		</selectKey>
+
+	</insert>
+
+	<select id="selectUser" resultType="com.tabibyab.tabibyab.User">
+		select phonenumber,password
+		from user where phonenumber = #{phonenumber}
+	</select>
+
+	<select id="login" resultType="com.tabibyab.tabibyab.User">
+		select * from user where
+		phonenumber = #{phonenumber} and password = #{password}
+	</select>
+
+	<insert id="addFamily">
+		insert into family (uID,fID) values
+		(#{uID},#{fID})
+
+		<selectKey keyProperty="phonenumber" resultType="int"
+			order="AFTER">
+			select last_insert_id() as id
+		</selectKey>
+
+	</insert>
+
+	<update id="editUser">
+		update user set first_name =
+		#{firstname}, last_name = #{lastname},gID=#{gid},iID=#{iid},password=#{password}, birth_day=#{birthday} where phonenumber=#{phonenumber}
+	</update>
+	
+<!-- 	<select id="selectAppointments">
+		select 
+	</select> -->
+
+</mapper>

@@ -11,7 +11,6 @@ This repository contains the codebase for the **Clinic Reservation Platform**, a
 - [Configuration](#configuration)
 - [Database Setup](#database-setup)
 - [Running the Application](#running-the-application)
-- [API Endpoints](#api-endpoints)
 - [Testing](#testing)
 - [Troubleshooting](#troubleshooting)
 - [Contributing](#contributing)
@@ -89,24 +88,6 @@ Before running the application, you need to configure the MySQL database setting
     ```
 
 2. The application will be accessible at `http://localhost:8080`.
-
-## API Endpoints
-
-The following are some of the key API endpoints available:
-
-- **User Registration & Authentication**
-  - `POST /api/auth/register` - Register a new user
-  - `POST /api/auth/login` - Authenticate a user
-
-- **Clinic Management**
-  - `GET /api/clinics` - Get all clinics
-  - `POST /api/clinics` - Add a new clinic
-
-- **Appointment Management**
-  - `GET /api/appointments` - Get all appointments
-  - `POST /api/appointments` - Schedule a new appointment
-
-For a full list of available endpoints and their details, inspect the controller classes.
 
 ## Testing
 
